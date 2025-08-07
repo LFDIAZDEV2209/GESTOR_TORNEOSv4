@@ -1,8 +1,8 @@
-using GESTOR_TORNEOS.src.Shared.Context;
+using GESTOR_TORNEOSv4.src.Shared.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 
-namespace GESTOR_TORNEOS.src.Shared.Helpers;
+namespace GESTOR_TORNEOSv4.src.Shared.Helpers;
 
 public class DbContextFactory
 {

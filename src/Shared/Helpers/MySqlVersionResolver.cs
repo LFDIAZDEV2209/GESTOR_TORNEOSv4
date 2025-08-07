@@ -1,6 +1,6 @@
 using MySqlConnector;
 
-namespace GESTOR_TORNEOS.src.Shared.Helpers;
+namespace GESTOR_TORNEOSv4.src.Shared.Helpers;
 
 public class MySqlVersionResolver
 {

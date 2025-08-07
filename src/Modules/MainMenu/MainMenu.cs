@@ -1,4 +1,8 @@
-using GESTOR_TORNEOS.src.Shared.Context;
+using GESTOR_TORNEOSv4.src.Modules.Tournaments.Application.Interfaces;
+using GESTOR_TORNEOSv4.src.Modules.Tournaments.Application.Services;
+using GESTOR_TORNEOSv4.src.Modules.Tournaments.Application.UI;
+using GESTOR_TORNEOSv4.src.Modules.Tournaments.Infrastructure;
+using GESTOR_TORNEOSv4.src.Shared.Context;
 using Spectre.Console;
 
 namespace GESTOR_TORNEOS.src.Modules.MainMenu;
@@ -7,10 +11,17 @@ namespace GESTOR_TORNEOS.src.Modules.MainMenu;
 public class MainMenu
 {
     private readonly AppDbContext _dbContext;
+    private readonly ITournamentUI _tournamentUI;
 
     public MainMenu(AppDbContext dbContext)
     {
         _dbContext = dbContext;
+
+        var tournamentRepository = new TournamentRepository(_dbContext);
+
+        var tournamentService = new TournamentService(tournamentRepository);
+
+        _tournamentUI = new TournamentUI(tournamentService);
     }
 
     public async Task Show()
@@ -46,9 +57,7 @@ public class MainMenu
             {
                 case '0':
                     Console.Clear();
-                    AnsiConsole.MarkupLine("[yellow]Módulo de torneos en desarrollo...[/]");
-                    AnsiConsole.MarkupLine("[yellow]Presione cualquier tecla para continuar...[/]");
-                    Console.ReadKey();
+                    await _tournamentUI.ShowMenu();
                     break;
                 case '1':
                     Console.Clear();
