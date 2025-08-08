@@ -290,6 +290,17 @@ public class TeamUI : ITeamUI
 
         var name = AnsiConsole.Ask<string>("[blue]Nuevo nombre del torneo:[/]", team.Name);
 
+        var cities = await _cityService.GetAllCitiesAsync(); 
+        var cityNames = cities.Select(c => $"{c.Id}: {c.Name}").ToList();
+        var citySelection = AnsiConsole.Prompt(
+            new SelectionPrompt<string>()
+            .Title("[blue]Seleccione una ciudad:[/]")
+            .PageSize(10)
+            .AddChoices(cityNames));
+
+        var cityId = int.Parse(citySelection.Split(':')[0]);
+
+        team.CityId = cityId;
         team.Name = name;
 
         try

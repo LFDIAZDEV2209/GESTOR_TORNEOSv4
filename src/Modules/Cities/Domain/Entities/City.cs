@@ -6,7 +6,7 @@ public class City
     public string Name { get; set; } = string.Empty;
 
     // Relación: una ciudad puede tener muchos equipos
-    public List<Team> Teams { get; set; } = new List<Team>();
+    public ICollection<Team> Teams { get; set; } = new HashSet<Team>();
 
     public City() { }
 
