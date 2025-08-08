@@ -50,14 +50,14 @@ public class MainMenu
                 .PageSize(10)
                 .AddChoices(new[]
                 {
-                    "0. Gestión de Torneos",
-                    "1. Gestión de Equipos",
-                    "2. Gestión de Jugadores",
-                    "3. Gestión de Cuerpo Técnico",
-                    "4. Gestión de Cuerpo Médico",
-                    "5. Gestión de Partidos",
-                    "6. Gestión de Estadísticas",
-                    "7. Gestión de Transferencias (Compra, Préstamo)",
+                    "0. Torneos",
+                    "1. Equipos",
+                    "2. Jugadores",
+                    "3. Cuerpo Técnico",
+                    "4. Cuerpo Médico",
+                    "5. Partidos",
+                    "6. Estadísticas",
+                    "7. Transferencias (Compra, Préstamo)",
                     "8. Salir"
                 }));
 
