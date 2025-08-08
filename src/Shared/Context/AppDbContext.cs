@@ -1,4 +1,4 @@
-using GESTOR_TORNEOSv4.src.Modules.Tournaments.Domain.Entities;
+using GESTOR_TORNEOSv4.src.Modules.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace GESTOR_TORNEOSv4.src.Shared.Context;
@@ -11,6 +11,7 @@ public class AppDbContext : DbContext
     }
 
     public DbSet<Tournament> Tournaments => Set<Tournament>();
+    public DbSet<Team> Teams => Set<Team>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

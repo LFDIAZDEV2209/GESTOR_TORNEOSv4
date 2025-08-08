@@ -1,7 +1,7 @@
-using GESTOR_TORNEOSv4.src.Modules.Tournaments.Application.Interfaces;
-using GESTOR_TORNEOSv4.src.Modules.Tournaments.Application.Services;
-using GESTOR_TORNEOSv4.src.Modules.Tournaments.Application.UI;
-using GESTOR_TORNEOSv4.src.Modules.Tournaments.Infrastructure;
+using GESTOR_TORNEOSv4.src.Modules.Application.Interfaces;
+using GESTOR_TORNEOSv4.src.Modules.Application.Services;
+using GESTOR_TORNEOSv4.src.Modules.Application.UI;
+using GESTOR_TORNEOSv4.src.Modules.Infrastructure;
 using GESTOR_TORNEOSv4.src.Shared.Context;
 using Spectre.Console;
 
@@ -12,16 +12,20 @@ public class MainMenu
 {
     private readonly AppDbContext _dbContext;
     private readonly ITournamentUI _tournamentUI;
+    private readonly ITeamUI _teamUI;
 
     public MainMenu(AppDbContext dbContext)
     {
         _dbContext = dbContext;
 
         var tournamentRepository = new TournamentRepository(_dbContext);
+        var teamRepository = new TeamRepository(_dbContext);
 
         var tournamentService = new TournamentService(tournamentRepository);
+        var teamService = new TeamService(teamRepository);
 
         _tournamentUI = new TournamentUI(tournamentService);
+        _teamUI = new TeamUI(teamService);
     }
 
     public async Task Show()
@@ -61,9 +65,7 @@ public class MainMenu
                     break;
                 case '1':
                     Console.Clear();
-                    AnsiConsole.MarkupLine("[yellow]Módulo de equipos en desarrollo...[/]");
-                    AnsiConsole.MarkupLine("[yellow]Presione cualquier tecla para continuar...[/]");
-                    Console.ReadKey();
+                    await _teamUI.ShowMenu();
                     break;
                 case '2':
                     Console.Clear();

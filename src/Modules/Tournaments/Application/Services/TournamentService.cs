@@ -1,7 +1,7 @@
-using GESTOR_TORNEOSv4.src.Modules.Tournaments.Domain.Entities;
-using GESTOR_TORNEOSv4.src.Modules.Tournaments.Application.Interfaces;
+using GESTOR_TORNEOSv4.src.Modules.Domain.Entities;
+using GESTOR_TORNEOSv4.src.Modules.Application.Interfaces;
 
-namespace GESTOR_TORNEOSv4.src.Modules.Tournaments.Application.Services;
+namespace GESTOR_TORNEOSv4.src.Modules.Application.Services;
 
 public class TournamentService : ITournamentService
 {

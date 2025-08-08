@@ -1,9 +1,9 @@
-using GESTOR_TORNEOSv4.src.Modules.Tournaments.Application.Interfaces;
-using GESTOR_TORNEOSv4.src.Modules.Tournaments.Domain.Entities;
+using GESTOR_TORNEOSv4.src.Modules.Application.Interfaces;
+using GESTOR_TORNEOSv4.src.Modules.Domain.Entities;
 using GESTOR_TORNEOSv4.src.Shared.Context;
 using Microsoft.EntityFrameworkCore;
 
-namespace GESTOR_TORNEOSv4.src.Modules.Tournaments.Infrastructure;
+namespace GESTOR_TORNEOSv4.src.Modules.Infrastructure;
 
 public class TournamentRepository : ITournamentRepository
 {

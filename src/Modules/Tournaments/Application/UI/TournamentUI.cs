@@ -1,8 +1,8 @@
-using GESTOR_TORNEOSv4.src.Modules.Tournaments.Application.Interfaces;
-using GESTOR_TORNEOSv4.src.Modules.Tournaments.Domain.Entities;
+using GESTOR_TORNEOSv4.src.Modules.Application.Interfaces;
+using GESTOR_TORNEOSv4.src.Modules.Domain.Entities;
 using Spectre.Console;
 
-namespace GESTOR_TORNEOSv4.src.Modules.Tournaments.Application.UI;
+namespace GESTOR_TORNEOSv4.src.Modules.Application.UI;
 
 public class TournamentUI : ITournamentUI
 {

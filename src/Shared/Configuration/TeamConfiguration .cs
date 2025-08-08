@@ -4,11 +4,11 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace GESTOR_TORNEOSv4.src.Shared.Configuration;
 
-public class TournamentConfiguration : IEntityTypeConfiguration<Tournament>
+public class TeamConfiguration : IEntityTypeConfiguration<Team>
 {
-    public void Configure(EntityTypeBuilder<Tournament> builder)
+    public void Configure(EntityTypeBuilder<Team> builder)
     {
-        builder.ToTable("Tournaments");
+        builder.ToTable("Teams");
 
         builder.HasKey(t => t.Id);
 
@@ -16,15 +16,6 @@ public class TournamentConfiguration : IEntityTypeConfiguration<Tournament>
             .IsRequired()
             .HasMaxLength(100);
 
-        builder.Property(t => t.StartDate)
-            .HasColumnName("start_date")
-            .IsRequired();
-
-        builder.Property(t => t.EndDate)
-            .HasColumnName("end_date")
-            .IsRequired();
-
         // Additional configurations can be added here
     }
 }
-

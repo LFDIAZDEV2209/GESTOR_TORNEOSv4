@@ -1,5 +1,5 @@
 
-namespace GESTOR_TORNEOSv4.src.Modules.Tournaments.Domain.Entities;
+namespace GESTOR_TORNEOSv4.src.Modules.Domain.Entities;
 
 public class Tournament
 {

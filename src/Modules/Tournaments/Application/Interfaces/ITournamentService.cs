@@ -1,6 +1,6 @@
-using GESTOR_TORNEOSv4.src.Modules.Tournaments.Domain.Entities;
+using GESTOR_TORNEOSv4.src.Modules.Domain.Entities;
 
-namespace GESTOR_TORNEOSv4.src.Modules.Tournaments.Application.Interfaces;
+namespace GESTOR_TORNEOSv4.src.Modules.Application.Interfaces;
 
 public interface ITournamentService
 {
