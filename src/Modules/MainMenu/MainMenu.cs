@@ -13,6 +13,7 @@ public class MainMenu
     private readonly AppDbContext _dbContext;
     private readonly ITournamentUI _tournamentUI;
     private readonly ITeamUI _teamUI;
+    private readonly IPlayerUI _playerUI;
 
     public MainMenu(AppDbContext dbContext)
     {
@@ -20,12 +21,15 @@ public class MainMenu
 
         var tournamentRepository = new TournamentRepository(_dbContext);
         var teamRepository = new TeamRepository(_dbContext);
+        var playerRepository = new PlayerRepository(_dbContext);
 
         var tournamentService = new TournamentService(tournamentRepository);
         var teamService = new TeamService(teamRepository);
+        var playerService = new PlayerService(playerRepository);
 
         _tournamentUI = new TournamentUI(tournamentService);
         _teamUI = new TeamUI(teamService);
+        _playerUI = new PlayerUI(playerService);
     }
 
     public async Task Show()
@@ -69,9 +73,7 @@ public class MainMenu
                     break;
                 case '2':
                     Console.Clear();
-                    AnsiConsole.MarkupLine("[yellow]Módulo de jugadores en desarrollo...[/]");
-                    AnsiConsole.MarkupLine("[yellow]Presione cualquier tecla para continuar...[/]");
-                    Console.ReadKey();
+                    await  _playerUI.ShowMenu();
                     break;
                 case '3':
                     Console.Clear();
