@@ -8,6 +8,8 @@ public class Tournament
     public DateTime StartDate { get; set; }
     public DateTime EndDate { get; set; }
 
+    public ICollection<TournamentTeam> TournamentTeam { get; set; } = new HashSet<TournamentTeam>();
+
     public Tournament(int id, string name, DateTime startDate, DateTime endDate)
     {
         Id = id;
