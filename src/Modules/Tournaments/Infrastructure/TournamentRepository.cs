@@ -31,5 +31,12 @@ public class TournamentRepository : ITournamentRepository
     }
 
     public async Task SaveChangesAsync() => await _context.SaveChangesAsync();
+
+    public async Task<IEnumerable<Tournament>> GetTournamentsWhereTeamIsNotEnrolledAsync(int teamId)
+    {
+        return await _context.Tournaments
+            .Where(t => !t.TournamentTeam.Any(tt => tt.TeamId == teamId))
+            .ToListAsync();
+    }
 }
 

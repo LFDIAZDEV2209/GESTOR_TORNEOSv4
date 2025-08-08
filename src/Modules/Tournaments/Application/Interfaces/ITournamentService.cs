@@ -9,4 +9,6 @@ public interface ITournamentService
     Task AddTournamentAsync(Tournament tournament);
     Task UpdateTournamentAsync(int id, Tournament tournament);
     Task DeleteTournamentAsync(int id);
+    Task<IEnumerable<Tournament>> GetTournamentsWhereTeamIsNotEnrolledAsync(int teamId);
+
 }

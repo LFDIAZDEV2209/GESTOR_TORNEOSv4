@@ -11,4 +11,6 @@ public interface ITeamUI
     Task ShowTeamDetail();
     Task ShowMenu();
     Task ShowTeamManagement();
+    Task ShowInscribeTeamToTournament();
+    Task ShowRemoveTeamFromTournament();
 }
