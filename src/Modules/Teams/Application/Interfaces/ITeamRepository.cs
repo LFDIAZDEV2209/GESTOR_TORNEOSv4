@@ -11,4 +11,6 @@ public interface ITeamRepository
     void Update(Team team);
     Task DeleteAsync(int id);
     Task SaveChangesAsync();
+    Task<IEnumerable<Team>> GetTeamsWithAtLeastOneTournamentAsync();
+
 }

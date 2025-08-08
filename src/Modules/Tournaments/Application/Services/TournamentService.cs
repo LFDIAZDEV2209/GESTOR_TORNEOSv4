@@ -110,7 +110,7 @@ public class TournamentService : ITournamentService
             Console.WriteLine($"Error deleting tournament with ID {id}: {ex.Message}");
         }
     }
-    
+
     public async Task<IEnumerable<Tournament>> GetTournamentsWhereTeamIsNotEnrolledAsync(int teamId)
     {
         try
@@ -126,6 +126,25 @@ public class TournamentService : ITournamentService
         catch (Exception ex)
         {
             Console.WriteLine($"Error retrieving tournaments where team with ID {teamId} is not enrolled: {ex.Message}");
+            return Enumerable.Empty<Tournament>();
+        }
+    }
+    
+    public async Task<IEnumerable<Tournament>> GetTournamentsByTeamIdAsync(int teamId)
+    {
+        try
+        {
+            var tournaments = await _tournamentRepository.GetTournamentsByTeamIdAsync(teamId);
+            if (tournaments == null || !tournaments.Any())
+            {
+                Console.WriteLine($"No tournaments found for team with ID {teamId}.");
+                return Enumerable.Empty<Tournament>();
+            }
+            return tournaments;
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error retrieving tournaments for team with ID {teamId}: {ex.Message}");
             return Enumerable.Empty<Tournament>();
         }
     }

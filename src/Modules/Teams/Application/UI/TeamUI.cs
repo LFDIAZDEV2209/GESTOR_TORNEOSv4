@@ -40,7 +40,7 @@ public class TeamUI : ITeamUI
                     "1. Registrar Cuerpo Técnico",
                     "2. Registrar Cuerpo Médico",
                     "3. Inscribir Equipo en Torneo",
-                    "4. Desinscribir Equipo en Torneo",
+                    "4. Eliminar Equipo en Torneo",
                     "5. Notificaciones de Transferencia",
                     "6. Salir"
                 }));
@@ -62,7 +62,7 @@ public class TeamUI : ITeamUI
                     break;
                 case '4':
                     Console.Clear();
-                    AnsiConsole.MarkupLine("[yellow]Funcionalidad en desarrollo[/]");
+                    await ShowRemoveTeamFromTournament();
                     break;
                 case '5':
                     AnsiConsole.MarkupLine("[yellow]Funcionalidad en desarrollo[/]");
@@ -368,8 +368,43 @@ public class TeamUI : ITeamUI
         }
     }
 
-    public Task ShowRemoveTeamFromTournament()
+    public async Task ShowRemoveTeamFromTournament()
     {
-        throw new NotImplementedException();
+        AnsiConsole.Write(
+            new FigletText("Eliminar Equipo de Torneo")
+            .Centered()
+            .Color(Color.Red));
+
+        var teams = await _teamService.GetTeamsWithAtLeastOneTournamentAsync();
+
+        var teamNames = teams.Select(t => $"{t.Id}: {t.Name}").ToList();
+        var teamSelection = AnsiConsole.Prompt(
+            new SelectionPrompt<string>()
+            .Title("[blue]Seleccione un equipo:[/]")
+            .PageSize(10)
+            .AddChoices(teamNames));
+        var teamId = int.Parse(teamSelection.Split(':')[0]);
+
+        var tournaments = await _tournamentService.GetTournamentsByTeamIdAsync(teamId);
+
+        var tournamentNames = tournaments.Select(t => $"{t.Id}: {t.Name}").ToList();
+        var tournamentSelection = AnsiConsole.Prompt(
+            new SelectionPrompt<string>()
+            .Title("[blue]Seleccione un torneo para eliminar el equipo:[/]")
+            .PageSize(10)
+            .AddChoices(tournamentNames));
+        var tournamentId = int.Parse(tournamentSelection.Split(':')[0]);
+
+        try
+        {
+            await _tournamentTeamService.RemoveTeamFromTournamentAsync(tournamentId, teamId);
+            AnsiConsole.MarkupLine("[green]Equipo eliminado del torneo exitosamente![/]");
+            AnsiConsole.MarkupLine("[yellow]Presione cualquier tecla para continuar[/]");
+            Console.ReadKey();
+        }
+        catch (Exception ex)
+        {
+            AnsiConsole.MarkupLine($"[red]Error al eliminar el equipo del torneo: {ex.Message}[/]");
+        }
     }
 }

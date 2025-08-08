@@ -11,6 +11,5 @@ public interface ITournamentRepository
     Task DeleteAsync(int id);
     Task SaveChangesAsync();
     Task<IEnumerable<Tournament>> GetTournamentsWhereTeamIsNotEnrolledAsync(int teamId);
-
-
+    Task<IEnumerable<Tournament>> GetTournamentsByTeamIdAsync(int teamId);
 }

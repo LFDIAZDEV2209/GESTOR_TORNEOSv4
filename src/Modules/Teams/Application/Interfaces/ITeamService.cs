@@ -9,4 +9,6 @@ public interface ITeamService
     Task AddTeamAsync(Team team);
     Task UpdateTeamAsync(int id, Team team);
     Task DeleteTeamAsync(int id);
+    Task<IEnumerable<Team>> GetTeamsWithAtLeastOneTournamentAsync();
+
 }

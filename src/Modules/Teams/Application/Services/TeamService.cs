@@ -48,7 +48,7 @@ public class TeamService : ITeamService
         catch (Exception ex)
         {
             Console.WriteLine($"Error deleting tournament with ID {id}: {ex.Message}");
-        }        
+        }
     }
 
     public async Task<IEnumerable<Team>> GetAllTeamsAsync()
@@ -109,6 +109,25 @@ public class TeamService : ITeamService
         catch (Exception ex)
         {
             Console.WriteLine($"Error updating team with ID {id}: {ex.Message}");
+        }
+    }
+    
+    public async Task<IEnumerable<Team>> GetTeamsWithAtLeastOneTournamentAsync()
+    {
+        try
+        {
+            var teams = await _teamRepository.GetTeamsWithAtLeastOneTournamentAsync();
+            if (teams == null || !teams.Any())
+            {
+                Console.WriteLine("No teams with at least one tournament found.");
+                return Enumerable.Empty<Team>();
+            }
+            return teams;
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error retrieving teams with at least one tournament: {ex.Message}");
+            return Enumerable.Empty<Team>();
         }
     }
 }

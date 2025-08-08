@@ -38,5 +38,12 @@ public class TournamentRepository : ITournamentRepository
             .Where(t => !t.TournamentTeam.Any(tt => tt.TeamId == teamId))
             .ToListAsync();
     }
+
+    public async Task<IEnumerable<Tournament>> GetTournamentsByTeamIdAsync(int teamId)
+    {
+        return await _context.Tournaments
+            .Where(t => t.TournamentTeam.Any(tt => tt.TeamId == teamId))
+            .ToListAsync();
+    }
 }
 

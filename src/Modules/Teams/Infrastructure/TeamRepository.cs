@@ -13,7 +13,7 @@ public class TeamRepository : ITeamRepository
     {
         _context = context;
     }
-    
+
     public void Add(Team team) => _context.Teams.Add(team);
 
     public async Task DeleteAsync(int id)
@@ -32,4 +32,11 @@ public class TeamRepository : ITeamRepository
     public Task SaveChangesAsync() => _context.SaveChangesAsync();
 
     public void Update(Team team) => _context.Teams.Update(team);
+    
+    public async Task<IEnumerable<Team>> GetTeamsWithAtLeastOneTournamentAsync()
+    {
+        return await _context.Teams
+            .Where(t => t.TournamentTeam.Any())
+            .ToListAsync();
+    }
 }
