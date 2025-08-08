@@ -28,6 +28,7 @@ public class TeamService : ITeamService
         catch (Exception ex)
         {
             Console.WriteLine($"An error occurred while adding the team: {ex.Message}");
+            Console.WriteLine(ex.InnerException);
         }
     }
 
@@ -35,7 +36,8 @@ public class TeamService : ITeamService
     {
         try
         {
-            if (await _teamRepository.GetByIdAsync(id) != null)
+            var team = await _teamRepository.GetByIdAsync(id);
+            if (team == null)
             {
                 Console.WriteLine($"Failed to delete tournament with ID {id}.");
                 return;

@@ -22,13 +22,15 @@ public class MainMenu
         var tournamentRepository = new TournamentRepository(_dbContext);
         var teamRepository = new TeamRepository(_dbContext);
         var playerRepository = new PlayerRepository(_dbContext);
+        var cityRepository = new CityRepository(_dbContext);
 
         var tournamentService = new TournamentService(tournamentRepository);
         var teamService = new TeamService(teamRepository);
         var playerService = new PlayerService(playerRepository);
+        var cityService = new CityService(cityRepository);
 
         _tournamentUI = new TournamentUI(tournamentService);
-        _teamUI = new TeamUI(teamService);
+        _teamUI = new TeamUI(teamService, cityService);
         _playerUI = new PlayerUI(playerService);
     }
 

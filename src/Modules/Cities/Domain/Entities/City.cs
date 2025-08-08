@@ -1,24 +1,23 @@
 namespace GESTOR_TORNEOSv4.src.Modules.Domain.Entities;
 
-public class Team
+public class City
 {
     public int Id { get; set; }
     public string Name { get; set; } = string.Empty;
 
-    public int? CityId { get; set; }  
-    public City? City { get; set; }   
+    // Relación: una ciudad puede tener muchos equipos
+    public List<Team> Teams { get; set; } = new List<Team>();
 
-    public Team(int id, string name)
+    public City() { }
+
+    public City(int id, string name)
     {
         Id = id;
         Name = name;
     }
 
-    public Team() { }
-
     public override string ToString()
     {
-        return $"Team(Id: {Id}, Name: {Name}, CityId: {CityId})";
+        return $"City(Id: {Id}, Name: {Name})";
     }
 }
-

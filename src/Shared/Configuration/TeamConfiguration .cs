@@ -16,6 +16,14 @@ public class TeamConfiguration : IEntityTypeConfiguration<Team>
             .IsRequired()
             .HasMaxLength(100);
 
-        // Additional configurations can be added here
+        builder.Property(t => t.CityId)
+            .HasColumnName("city_id");
+
+        builder
+            .HasOne(t => t.City)
+            .WithMany(c => c.Teams)
+            .HasForeignKey(t => t.CityId)
+            .OnDelete(DeleteBehavior.Cascade); // o .Cascade según la lógica de negocio
+
     }
 }

@@ -7,10 +7,12 @@ namespace GESTOR_TORNEOSv4.src.Modules.Application.UI;
 public class TeamUI : ITeamUI
 {
     private readonly ITeamService _teamService;
+    private readonly ICityService _cityService;
 
-    public TeamUI(ITeamService teamService)
+    public TeamUI(ITeamService teamService, ICityService cityService)
     {
         _teamService = teamService;
+        _cityService = cityService;
     }
 
     public async Task ShowMenu()
@@ -127,9 +129,22 @@ public class TeamUI : ITeamUI
 
         var name = AnsiConsole.Ask<string>("[blue]Nombre del Equipo:[/]");
 
+        var cities = await _cityService.GetAllCitiesAsync();
+
+        var cityNames = cities.Select(c => $"{c.Id}: {c.Name}").ToList();
+
+        var citySelection = AnsiConsole.Prompt(
+            new SelectionPrompt<string>()
+            .Title("[blue]Seleccione una ciudad:[/]")
+            .PageSize(10)
+            .AddChoices(cityNames));
+
+        var cityId = int.Parse(citySelection.Split(':')[0]);
+
         var team = new Team
         {
             Name = name,
+            CityId = cityId,
         };
 
         try
