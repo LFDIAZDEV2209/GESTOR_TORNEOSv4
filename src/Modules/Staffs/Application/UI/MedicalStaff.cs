@@ -4,12 +4,12 @@ using Spectre.Console;
 
 namespace GESTOR_TORNEOSv4.src.Modules.Application.UI;
 
-public class TechnicalStaffUI : IStaffUI
+public class MedicalStaffUI : IStaffUI
 {
     private readonly IStaffService _staffService;
     private readonly ICountryService _countryService;
 
-    public TechnicalStaffUI(IStaffService staffService, ICountryService countryService)
+    public MedicalStaffUI(IStaffService staffService, ICountryService countryService)
     {
         _staffService = staffService;
         _countryService = countryService;
@@ -22,7 +22,7 @@ public class TechnicalStaffUI : IStaffUI
             Console.Clear();
 
             AnsiConsole.Write(
-                new FigletText("Técnicos")
+                new FigletText("Médicos")
                 .Centered()
                 .Color(Color.Green)
             );
@@ -31,10 +31,10 @@ public class TechnicalStaffUI : IStaffUI
                 new SelectionPrompt<string>()
                 .Title("Selecciona una opción")
                 .AddChoices(new[] {
-                    "1. Crear técnico",
-                    "2. Buscar técnico",
-                    "3. Eliminar técnico",
-                    "4. Actualizar técnico",
+                    "1. Crear médico",
+                    "2. Buscar médico",
+                    "3. Eliminar médico",
+                    "4. Actualizar médico",
                     "5. Salir",
                 })
             );
@@ -76,20 +76,20 @@ public class TechnicalStaffUI : IStaffUI
     public async Task ShowCreateStaff()
     {
         AnsiConsole.Write(
-            new FigletText("Crear técnico")
+            new FigletText("Crear médico")
             .Centered()
             .Color(Color.Green)
         );
 
-        var name = AnsiConsole.Ask<string>("[blue]Nombre del técnico[/]");
+        var name = AnsiConsole.Ask<string>("[blue]Nombre del médico[/]");
 
-        var roles = await _staffService.GetStaffRolesByTypeAsync(1);
+        var roles = await _staffService.GetStaffRolesByTypeAsync(2);
 
         var roleNames = roles.Select(r => $"{r.Id}: {r.Name}").ToList();
 
         var roleSelection = AnsiConsole.Prompt(
             new SelectionPrompt<string>()
-            .Title("[blue]Selecciona el rol del técnico[/]")
+            .Title("[blue]Selecciona el rol del médico[/]")
             .AddChoices(roleNames)
         );
 
@@ -101,7 +101,7 @@ public class TechnicalStaffUI : IStaffUI
 
         var countrySelection = AnsiConsole.Prompt(
             new SelectionPrompt<string>()
-            .Title("[blue]Selecciona el país del técnico[/]")
+            .Title("[blue]Selecciona el país del médico[/]")
             .AddChoices(countryNames)
         );
 
@@ -117,12 +117,12 @@ public class TechnicalStaffUI : IStaffUI
         try
         {
             await _staffService.AddAsync(staff);
-            AnsiConsole.MarkupLine("[green]Técnico creado correctamente. Presiona cualquier tecla para continuar...[/]");
+            AnsiConsole.MarkupLine("[green]Médico creado correctamente. Presiona cualquier tecla para continuar...[/]");
             Console.ReadKey();
         }
         catch (Exception ex)
         {
-            AnsiConsole.MarkupLine($"[red]Error al crear el técnico: {ex.Message}[/]");
+            AnsiConsole.MarkupLine($"[red]Error al crear el médico: {ex.Message}[/]");
             AnsiConsole.MarkupLine("[yellow]Presiona cualquier tecla para continuar...[/]");
             Console.ReadKey();
         }

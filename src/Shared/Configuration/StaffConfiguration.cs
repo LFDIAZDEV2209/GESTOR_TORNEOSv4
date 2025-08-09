@@ -6,7 +6,7 @@ public class StaffConfiguration : IEntityTypeConfiguration<Staff>
 {
     public void Configure(EntityTypeBuilder<Staff> builder)
     {
-        builder.ToTable("Staff"); // O "Staffs", revisa el nombre real en tu BD
+        builder.ToTable("Staff"); 
 
         builder.HasKey(s => s.Id);
 

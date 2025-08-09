@@ -1,7 +1,7 @@
 namespace GESTOR_TORNEOSv4.src.Modules.Application.Interfaces;
 
-public interface ITechnicalStaffUI
+public interface IStaffUI
 {
     Task ShowMenu();
-    Task ShowCreateTechnicalStaff();
+    Task ShowCreateStaff();
 }

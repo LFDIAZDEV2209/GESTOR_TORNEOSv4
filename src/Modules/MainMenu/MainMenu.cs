@@ -14,8 +14,8 @@ public class MainMenu
     private readonly ITournamentUI _tournamentUI;
     private readonly ITeamUI _teamUI;
     private readonly IPlayerUI _playerUI;
-    private readonly ITechnicalStaffUI _technicalStaffUI;
-
+    private readonly IStaffUI _technicalStaffUI;
+    private readonly IStaffUI _medicalStaffUI;
     public MainMenu(AppDbContext dbContext)
     {
         _dbContext = dbContext;
@@ -40,6 +40,7 @@ public class MainMenu
         _teamUI = new TeamUI(teamService, cityService, tournamentTeamService, tournamentService);
         _playerUI = new PlayerUI(playerService);
         _technicalStaffUI = new TechnicalStaffUI(staffService, countryService);
+        _medicalStaffUI = new MedicalStaffUI(staffService, countryService);
     }
 
     public async Task Show()
@@ -91,9 +92,7 @@ public class MainMenu
                     break;
                 case '4':
                     Console.Clear();
-                    AnsiConsole.MarkupLine("[yellow]Módulo de cuerpo médico en desarrollo...[/]");
-                    AnsiConsole.MarkupLine("[yellow]Presione cualquier tecla para continuar...[/]");
-                    Console.ReadKey();
+                    await _medicalStaffUI.ShowMenu();
                     break;
                 case '5':
                     Console.Clear();

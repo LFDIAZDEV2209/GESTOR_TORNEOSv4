@@ -18,6 +18,7 @@ public class StaffService : IStaffService
             if (staff == null)
             {
                 Console.WriteLine("Staff is null");
+                return;
             }
             _staffRepository.Add(staff);
             await _staffRepository.SaveChangesAsync();
