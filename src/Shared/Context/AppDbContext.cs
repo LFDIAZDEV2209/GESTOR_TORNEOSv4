@@ -15,6 +15,10 @@ public class AppDbContext : DbContext
     public DbSet<Player> Players => Set<Player>();
     public DbSet<City> Cities => Set<City>();
     public DbSet<TournamentTeam> TournamentTeams => Set<TournamentTeam>();
+    public DbSet<Country> Countries => Set<Country>();
+    public DbSet<Staff> Staffs => Set<Staff>();
+    public DbSet<StaffRole> StaffRoles => Set<StaffRole>();
+    public DbSet<StaffType> StaffTypes => Set<StaffType>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

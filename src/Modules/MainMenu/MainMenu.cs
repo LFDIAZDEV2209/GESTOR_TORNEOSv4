@@ -14,6 +14,7 @@ public class MainMenu
     private readonly ITournamentUI _tournamentUI;
     private readonly ITeamUI _teamUI;
     private readonly IPlayerUI _playerUI;
+    private readonly ITechnicalStaffUI _technicalStaffUI;
 
     public MainMenu(AppDbContext dbContext)
     {
@@ -24,16 +25,21 @@ public class MainMenu
         var playerRepository = new PlayerRepository(_dbContext);
         var cityRepository = new CityRepository(_dbContext);
         var tournamentTeamRepository = new TournamentTeamRepository(_dbContext);
+        var staffRepository = new StaffRepository(_dbContext);
+        var countryRepository = new CountryRepository(_dbContext);
 
         var tournamentService = new TournamentService(tournamentRepository);
         var teamService = new TeamService(teamRepository);
         var playerService = new PlayerService(playerRepository);
         var cityService = new CityService(cityRepository);
         var tournamentTeamService = new TeamTournamentService(tournamentTeamRepository);
+        var staffService = new StaffService(staffRepository);
+        var countryService = new CountryService(countryRepository);
 
         _tournamentUI = new TournamentUI(tournamentService);
         _teamUI = new TeamUI(teamService, cityService, tournamentTeamService, tournamentService);
         _playerUI = new PlayerUI(playerService);
+        _technicalStaffUI = new TechnicalStaffUI(staffService, countryService);
     }
 
     public async Task Show()
@@ -81,9 +87,7 @@ public class MainMenu
                     break;
                 case '3':
                     Console.Clear();
-                    AnsiConsole.MarkupLine("[yellow]Módulo de cuerpo técnico en desarrollo...[/]");
-                    AnsiConsole.MarkupLine("[yellow]Presione cualquier tecla para continuar...[/]");
-                    Console.ReadKey();
+                    await _technicalStaffUI.ShowMenu();
                     break;
                 case '4':
                     Console.Clear();

@@ -9,6 +9,7 @@ public class Team
     public City? City { get; set; } 
 
     public ICollection<TournamentTeam> TournamentTeam { get; set; } = new HashSet<TournamentTeam>();
+    public ICollection<Staff> Staffs { get; set; } = new HashSet<Staff>();
   
 
     public Team(int id, string name)
