@@ -8,4 +8,6 @@ public interface IStaffService
     Task<IEnumerable<StaffRole>> GetStaffRolesByTypeAsync(int typeId);
     Task<Staff?> GetByIdAsync(int id);
     Task AddAsync(Staff staff);
+    Task AssignStaffToTeamAsync(int staffId, int teamId);
+    Task<IEnumerable<Staff>> GetUnassignedStaffByTypeAsync(int typeId);
 }

@@ -1,4 +1,3 @@
-
 namespace GESTOR_TORNEOSv4.src.Modules.Application.Interfaces;
 
 public interface ITeamUI
@@ -13,4 +12,6 @@ public interface ITeamUI
     Task ShowTeamManagement();
     Task ShowInscribeTeamToTournament();
     Task ShowRemoveTeamFromTournament();
+    Task ShowAssignMedicalStaffToTeam();
+    Task ShowAssignTechnicalStaffToTeam();
 }

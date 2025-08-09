@@ -10,13 +10,15 @@ public class TeamUI : ITeamUI
     private readonly ICityService _cityService;
     private readonly ITournamentTeamService _tournamentTeamService;
     private readonly ITournamentService _tournamentService;
+    private readonly IStaffService _staffService;
 
-    public TeamUI(ITeamService teamService, ICityService cityService, ITournamentTeamService tournamentTeamService, ITournamentService tournamentService)
+    public TeamUI(ITeamService teamService, ICityService cityService, ITournamentTeamService tournamentTeamService, ITournamentService tournamentService, IStaffService staffService)
     {
         _teamService = teamService;
         _cityService = cityService;
         _tournamentTeamService = tournamentTeamService;
         _tournamentService = tournamentService;
+        _staffService = staffService;
     }
 
     public async Task ShowMenu()
@@ -48,13 +50,16 @@ public class TeamUI : ITeamUI
             switch (selection[0])
             {
                 case '0':
+                    Console.Clear();
                     await ShowTeamManagement();
                     break;
                 case '1':
-                    AnsiConsole.MarkupLine("[yellow]Funcionalidad en desarrollo[/]");
+                    Console.Clear();
+                    await ShowAssignTechnicalStaffToTeam();
                     break;
                 case '2':
-                    AnsiConsole.MarkupLine("[yellow]Funcionalidad en desarrollo[/]");
+                    Console.Clear();
+                    await ShowAssignMedicalStaffToTeam();
                     break;
                 case '3':
                     Console.Clear();
@@ -405,6 +410,108 @@ public class TeamUI : ITeamUI
         catch (Exception ex)
         {
             AnsiConsole.MarkupLine($"[red]Error al eliminar el equipo del torneo: {ex.Message}[/]");
+        }
+    }
+
+    public async Task ShowAssignMedicalStaffToTeam()
+    {
+        AnsiConsole.Write(
+            new FigletText("Asignar Médico a Equipo")
+            .Centered()
+            .Color(Color.Green));
+
+        var teams = await _teamService.GetAllTeamsAsync();
+
+        var teamNames = teams.Select(t => $"{t.Id}: {t.Name}").ToList();
+
+        var teamSelection = AnsiConsole.Prompt(
+            new SelectionPrompt<string>()
+            .Title("[blue]Seleccione un equipo:[/]")
+            .PageSize(10)
+            .AddChoices(teamNames));
+        var teamId = int.Parse(teamSelection.Split(':')[0]);
+        
+        var medicalStaff = await _staffService.GetUnassignedStaffByTypeAsync(2);
+
+        if (medicalStaff == null || !medicalStaff.Any())
+        {
+            AnsiConsole.MarkupLine("[red]No hay médicos disponibles para asignar al equipo.[/]");
+            AnsiConsole.MarkupLine("[yellow]Presione cualquier tecla para continuar[/]");
+            Console.ReadKey();
+            return;
+        }
+
+        var medicalStaffNames = medicalStaff.Select(s => $"{s.Id}: {s.Name}").ToList();
+        var medicalStaffSelection = AnsiConsole.Prompt(
+            new SelectionPrompt<string>()
+            .Title("[blue]Seleccione un médico:[/]")
+            .PageSize(10)
+            .AddChoices(medicalStaffNames));
+        var medicalStaffId = int.Parse(medicalStaffSelection.Split(':')[0]);
+
+        try
+        {
+            await _staffService.AssignStaffToTeamAsync(medicalStaffId, teamId);
+            AnsiConsole.MarkupLine("[green]Médico asignado al equipo exitosamente![/]");
+            AnsiConsole.MarkupLine("[yellow]Presione cualquier tecla para continuar[/]");
+            Console.ReadKey();
+        }
+        catch (Exception ex)
+        {
+            AnsiConsole.MarkupLine($"[red]Error al asignar el médico al equipo: {ex.Message}[/]");
+            AnsiConsole.MarkupLine("[yellow]Presione cualquier tecla para continuar[/]");
+            Console.ReadKey();
+        }
+    }
+
+    public async Task ShowAssignTechnicalStaffToTeam()
+    {
+        AnsiConsole.Write(
+            new FigletText("Asignar Técnico a Equipo")
+            .Centered()
+            .Color(Color.Green));
+        
+        var teams = await _teamService.GetAllTeamsAsync();
+
+        var teamNames = teams.Select(t => $"{t.Id}: {t.Name}").ToList();
+
+        var teamSelection = AnsiConsole.Prompt(
+            new SelectionPrompt<string>()
+            .Title("[blue]Seleccione un equipo:[/]")
+            .PageSize(10)
+            .AddChoices(teamNames));
+        var teamId = int.Parse(teamSelection.Split(':')[0]);
+
+        var technicalStaff = await _staffService.GetUnassignedStaffByTypeAsync(1);
+
+        if (technicalStaff == null || !technicalStaff.Any())
+        {
+            AnsiConsole.MarkupLine("[red]No hay técnicos disponibles para asignar al equipo.[/]");
+            AnsiConsole.MarkupLine("[yellow]Presione cualquier tecla para continuar[/]");
+            Console.ReadKey();
+            return;
+        }
+
+        var technicalStaffNames = technicalStaff.Select(s => $"{s.Id}: {s.Name}").ToList();
+        var technicalStaffSelection = AnsiConsole.Prompt(
+            new SelectionPrompt<string>()
+            .Title("[blue]Seleccione un técnico:[/]")
+            .PageSize(10)
+            .AddChoices(technicalStaffNames));
+        var technicalStaffId = int.Parse(technicalStaffSelection.Split(':')[0]);
+
+        try
+        {
+            await _staffService.AssignStaffToTeamAsync(technicalStaffId, teamId);
+            AnsiConsole.MarkupLine("[green]Técnico asignado al equipo exitosamente![/]");
+            AnsiConsole.MarkupLine("[yellow]Presione cualquier tecla para continuar[/]");
+            Console.ReadKey();
+        }
+        catch (Exception ex)
+        {
+            AnsiConsole.MarkupLine($"[red]Error al asignar el técnico al equipo: {ex.Message}[/]");
+            AnsiConsole.MarkupLine("[yellow]Presione cualquier tecla para continuar[/]");
+            Console.ReadKey();
         }
     }
 }

@@ -37,7 +37,7 @@ public class MainMenu
         var countryService = new CountryService(countryRepository);
 
         _tournamentUI = new TournamentUI(tournamentService);
-        _teamUI = new TeamUI(teamService, cityService, tournamentTeamService, tournamentService);
+        _teamUI = new TeamUI(teamService, cityService, tournamentTeamService, tournamentService, staffService);
         _playerUI = new PlayerUI(playerService);
         _technicalStaffUI = new TechnicalStaffUI(staffService, countryService);
         _medicalStaffUI = new MedicalStaffUI(staffService, countryService);

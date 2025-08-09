@@ -16,20 +16,31 @@ public class StaffRepository : IStaffRepository
 
     public void Add(Staff staff) => _context.Staffs.Add(staff);
 
-    public async Task DeleteAsync(int id)
+    public async Task Delete(int id)
     {
-        var staff = await GetByIdAsync(id);
+        var staff = await GetById(id);
         if (staff != null)
         {
             _context.Staffs.Remove(staff);
         }
     }
 
-    public async Task<IEnumerable<Staff>> GetAllAsync() => await _context.Staffs.ToListAsync();
+    public async Task<IEnumerable<Staff>> GetAll() => await _context.Staffs.ToListAsync();
 
-    public async Task<IEnumerable<StaffRole>> GetStaffRolesByTypeAsync(int typeId) => await _context.StaffRoles.Where(s => s.TypeId == typeId).ToListAsync();
+    public async Task<IEnumerable<StaffRole>> GetStaffRolesByType(int typeId) => await _context.StaffRoles.Where(s => s.TypeId == typeId).ToListAsync();
 
-    public async Task<Staff?> GetByIdAsync(int id) => await _context.Staffs.FindAsync(id);
+    public async Task<Staff?> GetById(int id) => await _context.Staffs.FindAsync(id);
+
+    public async Task<IEnumerable<Staff>> GetUnassignedStaffByType(int typeId) => await _context.Staffs.Where(s => s.Role.TypeId == typeId && s.TeamId == null).ToListAsync();
+
+    public async Task AssignStaffToTeam(int staffId, int teamId)
+    {
+        var staff = await GetById(staffId);
+        if (staff != null)
+        {
+            staff.TeamId = teamId;
+        }
+    }
 
     public void Update(Staff staff) => _context.Staffs.Update(staff);
 

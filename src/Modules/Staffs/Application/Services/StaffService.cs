@@ -33,7 +33,7 @@ public class StaffService : IStaffService
     {
         try
         {
-            var staff = await _staffRepository.GetAllAsync();
+            var staff = await _staffRepository.GetAll();
             if (staff == null)
             {
                 Console.WriteLine("Staff is null");
@@ -52,7 +52,7 @@ public class StaffService : IStaffService
     {
         try
         {
-            var staff = await _staffRepository.GetByIdAsync(id);
+            var staff = await _staffRepository.GetById(id);
             if (staff == null)
             {
                 Console.WriteLine("Staff is null");
@@ -71,7 +71,7 @@ public class StaffService : IStaffService
     {
         try
         {
-            var staffRoles = await _staffRepository.GetStaffRolesByTypeAsync(typeId);
+            var staffRoles = await _staffRepository.GetStaffRolesByType(typeId);
             if (staffRoles == null)
             {
                 Console.WriteLine("Staff roles is null");
@@ -83,6 +83,44 @@ public class StaffService : IStaffService
         {
             Console.WriteLine($"Error getting staff roles by type: {ex.Message}");
             return Enumerable.Empty<StaffRole>();
+        }
+    }
+
+    public async Task<IEnumerable<Staff>> GetUnassignedStaffByTypeAsync(int typeId)
+    {
+        try
+        {
+            var staff = await _staffRepository.GetUnassignedStaffByType(typeId);
+            if (staff == null)
+            {
+                Console.WriteLine("Staff is null");
+                return Enumerable.Empty<Staff>();
+            }
+            return staff;
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error getting unassigned staff by type: {ex.Message}");
+            return Enumerable.Empty<Staff>();
+        }
+    }
+
+    public async Task AssignStaffToTeamAsync(int staffId, int teamId)
+    {
+        try
+        {
+            var staff = await _staffRepository.GetById(staffId);
+            if (staff == null)
+            {
+                Console.WriteLine("Staff is null");
+                return;
+            }
+            await _staffRepository.AssignStaffToTeam(staffId, teamId);
+            await _staffRepository.SaveChangesAsync();
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error assigning staff to team: {ex.Message}");
         }
     }
 }
