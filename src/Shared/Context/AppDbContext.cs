@@ -19,6 +19,10 @@ public class AppDbContext : DbContext
     public DbSet<Staff> Staffs => Set<Staff>();
     public DbSet<StaffRole> StaffRoles => Set<StaffRole>();
     public DbSet<StaffType> StaffTypes => Set<StaffType>();
+    public DbSet<Match> Matches => Set<Match>();
+    public DbSet<PlayerStats> PlayerStats => Set<PlayerStats>();
+    public DbSet<Position> Positions => Set<Position>();
+    public DbSet<Transfer> Transfers => Set<Transfer>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

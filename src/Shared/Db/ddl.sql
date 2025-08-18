@@ -1,6 +1,12 @@
 CREATE DATABASE IF NOT EXISTS gestor_torneos;
 USE gestor_torneos;
 
+-- =====================================================
+-- DDL ACTUALIZADO PARA GESTOR_TORNEOSv4
+-- Coincide exactamente con las entidades del proyecto
+-- =====================================================
+
+-- 1. TABLAS BASE (sin dependencias)
 CREATE TABLE Positions (
     id INT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(100) NOT NULL UNIQUE
@@ -16,6 +22,12 @@ CREATE TABLE Countries (
     name VARCHAR(100) NOT NULL UNIQUE
 ) ENGINE=InnoDB;
 
+CREATE TABLE StaffTypes (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(50) NOT NULL UNIQUE
+) ENGINE=InnoDB;
+
+-- 2. TABLAS CON DEPENDENCIAS SIMPLES
 CREATE TABLE Tournaments (
     id INT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(100) NOT NULL,
@@ -30,14 +42,14 @@ CREATE TABLE Teams (
     FOREIGN KEY (city_id) REFERENCES Cities(id) ON DELETE SET NULL
 ) ENGINE=InnoDB;
 
-CREATE TABLE TournamentTeams (
-    tournament_id INT,
-    team_id INT,
-    PRIMARY KEY (tournament_id, team_id),
-    FOREIGN KEY (tournament_id) REFERENCES Tournaments(id) ON DELETE CASCADE,
-    FOREIGN KEY (team_id) REFERENCES Teams(id) ON DELETE CASCADE
+CREATE TABLE StaffRoles (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(100) NOT NULL,
+    type_id INT NOT NULL,
+    FOREIGN KEY (type_id) REFERENCES StaffTypes(id)
 ) ENGINE=InnoDB;
 
+-- 3. TABLAS CON DEPENDENCIAS COMPLEJAS
 CREATE TABLE Players (
     id INT AUTO_INCREMENT PRIMARY KEY,
     team_id INT,
@@ -52,17 +64,13 @@ CREATE TABLE Players (
     FOREIGN KEY (position_id) REFERENCES Positions(id) ON DELETE SET NULL
 ) ENGINE=InnoDB;
 
-CREATE TABLE PlayerStats (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    player_id INT NOT NULL,
-    match_id INT NOT NULL,
-    goals INT DEFAULT 0,
-    assists INT DEFAULT 0,
-    minutes_played INT DEFAULT 0,
-    FOREIGN KEY (player_id) REFERENCES Players(id) ON DELETE CASCADE,
-    FOREIGN KEY (match_id) REFERENCES Matches(id) ON DELETE CASCADE
+CREATE TABLE TournamentTeams (
+    tournament_id INT,
+    team_id INT,
+    PRIMARY KEY (tournament_id, team_id),
+    FOREIGN KEY (tournament_id) REFERENCES Tournaments(id) ON DELETE CASCADE,
+    FOREIGN KEY (team_id) REFERENCES Teams(id) ON DELETE CASCADE
 ) ENGINE=InnoDB;
-
 
 CREATE TABLE Staff (
     id INT AUTO_INCREMENT PRIMARY KEY,
@@ -75,18 +83,7 @@ CREATE TABLE Staff (
     FOREIGN KEY (country_id) REFERENCES Countries(id) ON DELETE SET NULL
 ) ENGINE=InnoDB;
 
-CREATE TABLE StaffRoles (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    name VARCHAR(100) NOT NULL,
-    type_id INT NOT NULL,
-    FOREIGN KEY (type_id) REFERENCES StaffTypes(id)
-) ENGINE=InnoDB;
-
-CREATE TABLE StaffTypes (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    name VARCHAR(50) NOT NULL UNIQUE
-) ENGINE=InnoDB;
-
+-- 4. TABLA MATCHES (debe ir antes que PlayerStats)
 CREATE TABLE Matches (
     id INT AUTO_INCREMENT PRIMARY KEY,
     tournament_id INT NOT NULL,
@@ -95,9 +92,22 @@ CREATE TABLE Matches (
     match_date DATE NOT NULL,
     home_score INT DEFAULT 0,
     away_score INT DEFAULT 0,
+    is_finished BOOLEAN DEFAULT FALSE,
     FOREIGN KEY (tournament_id) REFERENCES Tournaments(id) ON DELETE CASCADE,
     FOREIGN KEY (home_team_id) REFERENCES Teams(id) ON DELETE CASCADE,
     FOREIGN KEY (away_team_id) REFERENCES Teams(id) ON DELETE CASCADE
+) ENGINE=InnoDB;
+
+-- 5. TABLAS QUE DEPENDEN DE MATCHES
+CREATE TABLE PlayerStats (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    player_id INT NOT NULL,
+    match_id INT NOT NULL,
+    goals INT DEFAULT 0,
+    assists INT DEFAULT 0,
+    minutes_played INT DEFAULT 0,
+    FOREIGN KEY (player_id) REFERENCES Players(id) ON DELETE CASCADE,
+    FOREIGN KEY (match_id) REFERENCES Matches(id) ON DELETE CASCADE
 ) ENGINE=InnoDB;
 
 CREATE TABLE Transfers (

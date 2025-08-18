@@ -7,4 +7,5 @@ public interface ITournamentTeamRepository
     void InscribeTeamToTournament(TournamentTeam tournamentTeam);
     void RemoveTeamFromTournament(TournamentTeam tournamentTeam);
     Task SaveChangesAsync(); // Added for async operations if needed
+    Task<IEnumerable<Team>> GetTeamsByTournamentAsync(int tournamentId);
 }

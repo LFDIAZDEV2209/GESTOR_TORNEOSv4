@@ -10,6 +10,7 @@ public class Team
 
     public ICollection<TournamentTeam> TournamentTeam { get; set; } = new HashSet<TournamentTeam>();
     public ICollection<Staff> Staffs { get; set; } = new HashSet<Staff>();
+    public ICollection<Player> Players { get; set; } = new HashSet<Player>();
   
 
     public Team(int id, string name)

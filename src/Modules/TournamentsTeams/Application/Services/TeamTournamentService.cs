@@ -49,4 +49,23 @@ public class TeamTournamentService : ITournamentTeamService
             Console.WriteLine("Error removing team from tournament", ex);
         }
     }
+
+    public async Task<IEnumerable<Team>> GetTeamsByTournamentAsync(int tournamentId)
+    {
+        try
+        {
+            var teams = await _tournamentTeamRepository.GetTeamsByTournamentAsync(tournamentId);
+            if (teams == null || !teams.Any())
+            {
+                Console.WriteLine($"No teams found for tournament with ID {tournamentId}.");
+                return Enumerable.Empty<Team>();
+            }
+            return teams;
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error retrieving teams for tournament with ID {tournamentId}: {ex.Message}");
+            return Enumerable.Empty<Team>();
+        }
+    }
 }
