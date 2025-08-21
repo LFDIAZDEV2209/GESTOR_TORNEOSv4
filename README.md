@@ -125,7 +125,7 @@ El sistema incluye un conjunto completo de datos de prueba:
 
 1. **Clonar el repositorio**
    ```bash
-   git clone [URL_DEL_REPOSITORIO]
+   git clone https://github.com/LFDIAZDEV2209/GESTOR_TORNEOSv4
    cd GESTOR_TORNEOSv4
    ```
 
@@ -314,7 +314,7 @@ Este proyecto está bajo la Licencia MIT. Ver el archivo `LICENSE` para más det
 
 **LFDIAZDEV2209**
 - GitHub: [@LFDIAZDEV2209](https://github.com/LFDIAZDEV2209)
-- Email: [tu-email@ejemplo.com]
+- Email: [diazf7583@gmail.com](mailto:diazf7583@gmail.com)
 
 ## 🙏 Agradecimientos
 
